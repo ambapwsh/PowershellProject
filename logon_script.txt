@@ -1,4 +1,4 @@
-Windows 7:
+Windows :
 event id 4624: account logon
 event id 4647: account logoff
 
