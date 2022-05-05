@@ -1,5 +1,3 @@
-
-
 $foldeBrowser = New-Object System.Windows.Forms.OpenFileDialog
 $foldeBrowser.ShowDialog()
 $file = $foldeBrowser.FileName
