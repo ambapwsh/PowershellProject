@@ -58,7 +58,6 @@ $vm.Name|foreach{
     }
 }
 
-
 #La fonction qui permet d'installer google chrome 
 
 function ESGI-GR4-InstallChrome {
@@ -133,8 +132,9 @@ else{
     echo "l'integration de la machine dans l'AD n'a pas fonctionnée"
 }
 }
-
 }
+
+#********************** Appel des Fonction
 
 #=============================== création du mdp
 ESGI-GR4-CreationMDP
@@ -144,7 +144,7 @@ ESGI-GR4-DemanderNomVM
 ESGI-GR4-TestsiVmExiste
 #===============================  Installation de Google Chrome
 ESGI-GR4-InstallChrome
-#================ Ajoute de l'adresse ip de l'AD en tant que DNS
+#================ Ajoute de l'adresse IP de l'AD en tant que DNS
 ESGI-GR4-AjouterDNS
 #================ Ajout de la Machine Virtuelle dans le domaine
 ESGI-GR4-AjouterlaVmdansleDomain
