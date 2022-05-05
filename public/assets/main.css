@@ -1,0 +1,14 @@
+body{
+    background-color: LightGray;
+    text-align: center;
+    color: blue;
+}
+h2{
+    background-color: DarkOrange;
+    color: Cornsilk;
+    border-radius: 10px;
+ }
+ 
+ table, tr, th, td {
+    border: 1px solid black;
+ }
