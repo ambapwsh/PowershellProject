@@ -1,27 +1,34 @@
-#=============================== Variables 
+#************************************* Variables *************************************
 
 $location = "CanadaCentral"
 $Groupederessources = "GR4-Groupe-de-ressources"
-$Chrome = "NON" #Oui pour installe Google Chrome
-$DNS = "OUI" # OUI pour ajouter le DNS 
-$AjDomain = "OUI" # OUI pour ajouter la machine dnas le domain
+$Chrome = "NON" #Oui pour l'installation Google Chrome
+$DNS = "NON" # OUI pour ajouter le DNS 
+$AjDomain = "NON" # OUI pour ajouter la machine dans le domaine
 $domain="gr4.local"
+$PathDNS = "C:\Users\Freskim\Desktop\Project Powershell\DNS.ps1"
+$PathChrome = "C:\Users\Freskim\Desktop\Project Powershell\Google-Chrome.ps1"
+$PathDomain = "C:\Users\Freskim\Desktop\Project Powershell\Domain.ps1"
 
+#************************************* Les Fonctions *************************************
 
 
 #=============================== Creation du login plus mdp local pour les machines ===============================
 
-
+function ESGI-GR4-CreationMDP {
 $VMLocalUserName = "Freskim"
 $VMLocalAdminSecurePassword = ConvertTo-SecureString "P@ssword" -AsPlainText -Force
 $UserPassword = New-Object System.Management.Automation.PSCredential($VMLocalUserName, $VMLocalAdminSecurePassword)
+}
 
+#La fonction qui permet de demander le nom de la machine virtuelle
+function ESGI-GR4-DemanderNomVM {
+$nomVm = Read-Host "Donner le nom de la machine virtuelle"
+return $nomVm
+}
+#La fonction qui permet de créée la machine virtuelle 
 
-
-#=============================== Les Fonction ===============================
-
-
-function CreateVM {
+function ESGI-GR4-CreateVM {
 New-AzVm `
         -ResourceGroupName $Groupederessources `
         -Name $nomVm `
@@ -36,14 +43,9 @@ New-AzVm `
 
 }
 
-#=============================== Demander a l'utilisateur le nom de la VM
+#La fonction qui permet de Tester si la machine existe  
 
-$nomVm = Read-Host "Donner l'nom de la machine virtuelle"
-
-
-#=============================== Tester si la machine existe 
-
-
+function ESGI-GR4-TestsiVmExiste {
 $vm = Get-AzVM -ResourceGroupName $Groupederessources
 $vm.Name|foreach{
     if ($nomVm -eq $_){
@@ -54,9 +56,12 @@ $vm.Name|foreach{
 
          }
     }
+}
 
-#=============================== 
 
+#La fonction qui permet d'installer google chrome 
+
+function ESGI-GR4-InstallChrome {
 if ( $Chrome -eq "OUI") {
 Do {
     $StatusVM = (Get-AzVM -ResourceGroupName $Groupederessources -Name $nomVm -Status).VMAgent.Statuses.DisplayStatus
@@ -70,15 +75,19 @@ Invoke-AzVmRunCommand `
      -ResourceGroupName $Groupederessources `
      -VMName "$nomVm" `
      -CommandId "RunPowerShellScript" `
-     -ScriptPath "C:\Users\Freskim\Desktop\Project Powershell\Google-Chrome.ps1"
+     -ScriptPath $PathChrome
      }
 }
+}
 
-#================ Ajouter l'adress ip de l'ad en DNS
+
+#La fonction qui permet de configurer le DNS sur les machines
+
+function ESGI-GR4-AjouterDNS{
 if ( $DNS -eq "OUI") {
 Do {
     $StatusVM = (Get-AzVM -ResourceGroupName $Groupederessources -Name $nomVm -Status).VMAgent.Statuses.DisplayStatus
-    echo "Att pour ajouter le DNS"
+    echo "En attente de la finalisation de la Machine Virtuelle pour configurer le DNS"
     sleep 5
 } until ($StatusVM -eq "Ready")
 
@@ -88,18 +97,19 @@ Invoke-AzVmRunCommand `
      -ResourceGroupName $Groupederessources `
      -VMName "$nomVm" `
      -CommandId "RunPowerShellScript" `
-     -ScriptPath "C:\Users\Freskim\Desktop\Project Powershell\DNS.ps1"
+     -ScriptPath $PathDNS
 }
 
 }
+}
 
+#La fonction qui permet d'Ajouter la VM dans le Domaine
 
-#================ Ajouter DOMAIN
-
+function ESGI-GR4-AjouterlaVmdansleDomain {
 if ($AjDomain -eq "OUI"){
 Do {
     $StatusVM = (Get-AzVM -ResourceGroupName $Groupederessources -Name $nomVm -Status).VMAgent.Statuses.DisplayStatus
-    echo "att pour ajouter la machine sur le Domain"
+    echo "En attente de la finalisation de la Machine Virtuelle pour ajouter la machine sur le Domaine"
     sleep 5
 } until ($StatusVM -eq "Ready")
 
@@ -109,18 +119,32 @@ Invoke-AzVmRunCommand `
      -ResourceGroupName $Groupederessources `
      -VMName "$nomVm" `
      -CommandId "RunPowerShellScript" `
-     -ScriptPath "C:\Users\Freskim\Desktop\Project Powershell\Domain.ps1"
+     -ScriptPath $PathDomain
      }
 }
-
 
 
 if ($AjDomain -eq "OUI"){
 if($?){
     Restart-AzVM -Name $nomVm -ResourceGroupName $Groupederessources
-    echo " la machine $nomVm vien de redemarre"
+    echo " la machine $nomVm vien d'être redemarré"
 }
 else{
-    echo "l'integration de la machine dnas l'ad n'a pas fonctionne"
+    echo "l'integration de la machine dans l'AD n'a pas fonctionnée"
 }
 }
+
+}
+
+#=============================== création du mdp
+ESGI-GR4-CreationMDP
+#=============================== Demander à l'utilisateur le nom de la VM
+ESGI-GR4-DemanderNomVM
+#=============================== Tester si la machine existe 
+ESGI-GR4-TestsiVmExiste
+#===============================  Installation de Google Chrome
+ESGI-GR4-InstallChrome
+#================ Ajoute de l'adresse ip de l'AD en tant que DNS
+ESGI-GR4-AjouterDNS
+#================ Ajout de la Machine Virtuelle dans le domaine
+ESGI-GR4-AjouterlaVmdansleDomain
