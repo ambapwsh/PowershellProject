@@ -154,9 +154,9 @@ Foreach($Feature in $FeatureList){
 } # Foreach($Feature in $FeatureList)
 }
 
-#Create Activ Directory Domain
-
-$DomainNameDNS = "douam.com"
+#Create Active Directory Domain
+function createABDomain {
+    $DomainNameDNS = "douam.com"
 $DomainNameNetbios = "DOUAM"
 
 $ForestConfiguration = @{
@@ -174,4 +174,7 @@ $ForestConfiguration = @{
 
 Import-Module ADDSDeployment
 Install-ADDSForest @ForestConfiguration
+}
+Install-Features
+createABDomain
 

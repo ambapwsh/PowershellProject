@@ -83,7 +83,7 @@ function Get-WinLogonHistory {
             #} 
             #$file = ConvertTo-Html -Body "$result" | Out-file -FilePath test5.html 
         } 
- 
+            
         Write-Output $table | Format-Table
 
         #foreach ($outputs in $output){
