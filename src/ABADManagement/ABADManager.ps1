@@ -31,7 +31,7 @@ function GetABADUser{
         -EmailAddress $user.'email' `
         -Title $user.'Poste' `
         -OfficePhone $user.'Telephone' `
-        -Path $user.'Unite Organisation' `  
+        -Path $user.'Unite Organisation' `
         -ChangePasswordAtLogon 1 `
         -Enabled ([System.Convert]::ToBoolean($user.Enabled))
     } 
