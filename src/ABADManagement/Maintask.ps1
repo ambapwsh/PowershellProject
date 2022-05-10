@@ -13,7 +13,7 @@ function ExecTask{
     
     foreach($script in $scriptsList)
     {
-        Start-Process -FilePath "$PSHOME\powershell.exe" -ArgumentList "-command '& $script'" + "" + $policy -Wait
+        Start-Process -FilePath "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList "-command '& $script'"  -Wait
     }
 }
 

@@ -1,7 +1,9 @@
 #Create Organizationnal Unit after reboot 
 function CreateOU{
-    $ou = New-ADOrganizationalUnit Finance –Path 'OU=Domain Users,DC=esgihamfa,DC=fr' 
-     -ProtectedFromAccidentalDeletion $True
-     return $ou
+    New-ADOrganizationalUnit -Name 'esgihamfa' -ProtectedFromAccidentalDeletion $True
+    New-ADOrganizationalUnit -Name 'Domain Computers' -Path 'OU=esgihamfa,DC=esgihamfa,DC=fr' -ProtectedFromAccidentalDeletion $True
+    New-ADOrganizationalUnit -Name 'Domain Users' –Path 'OU=esgihamafa,DC=esgihamfa,DC=fr'  -ProtectedFromAccidentalDeletion $True
+     
+
  }
  CreateOU
