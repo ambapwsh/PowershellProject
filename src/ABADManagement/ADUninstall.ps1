@@ -6,4 +6,4 @@ function ABRmFeatures{
      #remove AD and DNS
      Uninstall-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
      Uninstall-WindowsFeature -Name DNS -IncludeManagementTools
-}
+}   
