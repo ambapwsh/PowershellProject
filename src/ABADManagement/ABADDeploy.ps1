@@ -1,8 +1,3 @@
-function RenameServerName{
-    #begin by renaming Server Name and rebooting 
-    Rename-Computer -NewName DOUAMDC01
-    Restart-Computer -Force
-}
 
 function  deploy {
     $computerName = $env:COMPUTERNAME
@@ -27,7 +22,7 @@ function  deploy {
                   foreach($Feature in $FeatureList){
                   if(((Get-WindowsFeature -Name $Feature).InstallState) -eq "Available"){
 
-                 Write-Output"Feature $Feature will be installed now !"
+                 Write-Output "Feature $Feature will be installed now !"
 
                  Try{
 
@@ -43,17 +38,5 @@ function  deploy {
                } 
             }
 }
+deploy
 
-function InstallADForest{
-    #gobal var for configuration 
-    $DatabasePath = "C:\windows\NTDS"
-    $DomainMode = "WinThreshold"
-    $DomainName = "esgihamfa.fr"
-    $DomainNameNetbios = "ESGIHAMFA"
-    $ForestMode = "WinThreshold"
-    $SysVolPath = "C:\windows\SYSVOL"
-    $Password = "Admin2021"
-    $SecureString = ConvertTo-SecureString $Password -AsPlainText -Force
-
-    Install-ADDSForest -DomainName $DomainName -DatabasePath $DatabasePath -DomainMode $DomainMode  -SafeModeAdministratorPassword $SecureString -DomainNetbiosName $DomainNameNetbios -ForestMode $ForestMode -InstallDns:$true -NoRebootOnCompletion:$false -SysvolPath $SysVolPath -Force:$true  
-}
