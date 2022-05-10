@@ -1,7 +1,7 @@
 #Import the active directory module
 Import-Module ActiveDirectory
 #Global variables 
-$users = "douam.com/users"
+$users = "esgi-hafa.fr/users"
 
 #List all AD users with limit of 100 users - this is important for larger domains
 
@@ -64,6 +64,6 @@ function ManageDisabledUser {
     Search-ADAccount -AccountDisabled | Where-Object {$_.DistinguishedName -notlike "*OU=Disabled Users*"} | Move-ADObject -TargetPath "OU=Disabled Users, OU=douam,DC=douam DC=com"
     
     #Disable all users in the disabled users OU 
-    Get-ADUser -Filter { Enabled -eq $True } -SearchBase "OU=Disabled Users, OU=douam,DC=douam DC=com" | Disable-ADAccount 
+    Get-ADUser -Filter { Enabled -eq $True } -SearchBase "OU=Disabled Users, OU=esgi-hafa,DC=esgi-hafa DC=fr" | Disable-ADAccount 
 }
  
