@@ -1,69 +1,58 @@
-#Import the active directory module
+# Import the AD Module
 Import-Module ActiveDirectory
-#Global variables 
-$users = "esgi-hafa.fr/users"
 
-#List all AD users with limit of 100 users - this is important for larger domains
+# Get the path to our target CSV file
+$filepath = "Please enter the path to the CSV file that contains the new user accounts"
 
-function ABGetADUsers{
-    Get-ADUser -Filter * -SearchBase $users 
-}
- 
+# Import the CSV as an array
+$users = Import-CSV -Path $filepath -Encoding UTF8
 
-function GetABADUser{
-    #Get the path to our target CSV file
-    $filepath =Read-Host -Prompt "Veuillez indiquer le chemin du fichier csv contenant les utilisateurs"    
-    #Importing the csv as an array 
-    $users = Import-Csv $filepath
+# Complete an action for each user in the CSV file
+ForEach ($user in $users) {
+    # Do this for each user
+    $accountNumber = verifyUsername($user.'FirstName'[0] + $user.'LastName')
+    $username = ($user.'FirstName'[0] + $user.'LastName' + $accountNumber)
 
-    #get each user in csv file
-    foreach($user in $users){
-        $accountNumber = verifyUsername($user.'prenom'[0] +  $user.'Nom')
-        $username = ($user.'Prenom'[0] + $user.'Nom' + $accountNumber)
-        New-ADUser `
-        -Name ($user.'prenom' + " " + $user.'Nom' + $accountNumber) `
-        -GivenName $user.'Prenom' `
-        -Surname $user.'Nom' `
+    New-ADUser `
+        -Name ($user.'FirstName' + " " + $user.'LastName' + " " + $accountNumber) `
+        -GivenName $user.'FirstName' `
+        -Surname $user.'LastName' `
         -UserPrincipalName $username `
         -SamAccountName $username `
-        -AccountPassword (ConvertTo-SecureString "User@@#_0995" -AsPlainText -Force) `
-        -Description $user.'Description' `
-        -EmailAddress $user.'email' `
-        -Title $user.'Poste' `
-        -OfficePhone $user.'Telephone' `
-        -Path $user.'Unite Organisation' `
+        -AccountPassword (ConvertTo-SecureString "Admin2021" -AsPlainText -Force) `
+        -Description $user.Description `
+        -EmailAddress $user.'EmailAddress' `
+        -Title $user.'JobTitle' `
+        -OfficePhone $user.'OfficePhone' `
+        -Path $user.'OrganizationalUnit' `
         -ChangePasswordAtLogon 1 `
         -Enabled ([System.Convert]::ToBoolean($user.Enabled))
-    } 
 }
 
-#See if a username is already in use. If it is, then return the number that should be appended 
-#the end of the name. Else, return an empty string #for example: aba  aba2 mtoure mtoure1 ... 
-function verifyUsername($username){
+# See if a username is already in use. If it is, then return the number that should be appended 
+# the end of the name. Else, return an empty string (example: phill, phill1, phill2 etc...)
+function verifyUsername($username) {
     $i = 1 
-    #chekc if username is taken 
-    if(userNameTaken($username) -eq $True){
-        while(userNameTaken($username +$i) -eq $True){
+
+    # See if username is taken (or in use)
+    if (userNameTaken($username) -eq $True) {
+        while (userNameTaken($username + $i) -eq $True) {
             $i++
         }
-    }
-    else{
+    } else {
         return ""
     }
     return $i
 }
-#Check if username exist
-function userNameTaken($username){
 
-}
-function ManageDisabledUser {
-    #List all disable AD users 
-    Search-ADAccount -AccountDisabled | Select-Object Name, DistinguishedName
+# Check to see if username already exists
+function userNameTaken($username) {
+    $test1 = Get-ADUser -Filter { userPrincipalName -eq $username } 
+    $test2 = Get-ADUser -Filter { samAccountName -eq $username }
 
-    #Move all disabled AD users to disabled users OU
-    Search-ADAccount -AccountDisabled | Where-Object {$_.DistinguishedName -notlike "*OU=Disabled Users*"} | Move-ADObject -TargetPath "OU=Disabled Users, OU=douam,DC=douam DC=com"
-    
-    #Disable all users in the disabled users OU 
-    Get-ADUser -Filter { Enabled -eq $True } -SearchBase "OU=Disabled Users, OU=esgi-hafa,DC=esgi-hafa DC=fr" | Disable-ADAccount 
+    if($test1 -eq $Null -and $test2 -eq $Null) {
+        return $False
+    } else {
+        return $True
+    }
 }
- 
