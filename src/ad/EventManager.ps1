@@ -5,7 +5,7 @@ function Get-WinLogonHistory {
     $powers = Get-EventLog -LogName System -After (Get-Date).AddDays(-1) -Before $(Get-Date) | Where-Object {($_.EventID -eq 1074) -or ($_.EventID -eq 41) -or ($_.EventID -eq 6006) -or ($_.EventID -eq 6008)} | Select-Object EventID,TimeGenerated,Message 
     $events = $logons + $powers | Sort-Object TimeGenerated 
     $a = "<style>"
-    $a = $a + "BODY{background-color:LightGray;; text-align: center;}"
+    $a = $a + "BODY{background-color:LightGray;; text-align: center; position:absolute; left:30%; top:20%;}"
     $a = $a + "TABLE{border-width: 1px;border-style: solid;border-color:  black;border-collapse: collapse;}"
     $a = $a + "TH{column-width: 200px;border-width: 1px;padding: 8px;border-style: solid;border-color: black;background-color:thistle;  color: blue}"
     $a = $a + "TD{column-width: 200px;border-width: 1px;padding: 3px;border-style: solid;border-color: black;background-color:PaleGoldenrod;text-align: center}"
@@ -71,29 +71,32 @@ function Get-WinLogonHistory {
                 Add-Member -MemberType NoteProperty -Name 'Action' -Value $action -InputObject $output 
                 Add-Member -MemberType NoteProperty -Name 'LogonType' -Value $logonType -InputObject $output 
                 Add-Member -MemberType NoteProperty -Name 'TimeStamp' -Value $timeStamp -InputObject $output 
-                #Write-Output $output | Format-Table -HideTableHeaders            
+                $output | Format-Table -HideTableHeaders            
             } 
             
-            $outputs=@()
-            $outputs = $output
-            #Write-Output $outputs
-            #$outputs | ConvertTo-Html -Title "log management" | Out-File Management.html 
+            #$outputs=@()
+            #outputs = $output
+            Write-Output $output
+            $output.username -eq "aba" | ConvertTo-Html -Title "log management" -Head $a| Out-File Management.html -Append
             #foreach ($out in $output){
             #    $result = Write-Output $output
             #} 
             #$file = ConvertTo-Html -Body "$result" | Out-file -FilePath test5.html 
         } 
             
-        Write-Output $table | Format-Table
+       
 
-        #foreach ($outputs in $output){
-         #       $result = Write-Output $output
-          #  } 
-           # $file = ConvertTo-Html -Body "$result" | Out-file -FilePath test5.html -Append
-    } else { 
-        Write-Host "No recent logon/logoff events." 
+        #foreach ($out in $output){
+           #    $result = Write-Output $out
+         #  $file = ConvertTo-Html -Body "$result" | Out-file -FilePath test5.html -Append
+   # } else { 
+     #   Write-Host "No recent logon/logoff events." 
     } 
 } 
 
-
 Get-WinLogonHistory 
+
+#function getADuserLog(){
+ #   Get-WinLogonHistory 
+  #  if()
+#}

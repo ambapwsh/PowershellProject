@@ -1,4 +1,4 @@
-$aruguments = @(" C:\Users\aba\Desktop\PWSH+1\PowershellProject\src\ADABManagement\ADDeploy.ps1", "C:\Users\aba\Desktop\PWSH+1\PowershellProject\src\ADABManagement\ADManager.ps1", "") 
+#$aruguments = @(" C:\Users\aba\Desktop\PWSH+1\PowershellProject\src\ADABManagement\ADDeploy.ps1", "C:\Users\aba\Desktop\PWSH+1\PowershellProject\src\ADABManagement\ADManager.ps1", "") 
 $policy= "-ExecutionPolicy Bypass"
 function ExecTask{
     $scriptsList = 
@@ -10,10 +10,10 @@ function ExecTask{
         'C:\Users\aba\Desktop\PWSH+1\PowershellProject\src\ADABManagement\ADManager.ps1'
         
     )
-    
+    Set-ExecutionPolicy -ExecutionPolicy $policy
     foreach($script in $scriptsList)
     {
-        Start-Process -FilePath "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList "-command '& $script'"  -Wait
+        Start-Process -FilePath "$PSHOME\powershell.exe" -ArgumentList "-command '& $script'"  -Wait
     }
 }
 
