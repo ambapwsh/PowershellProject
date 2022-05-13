@@ -12,14 +12,15 @@ ForEach ($user in $users) {
     # Do this for each user
     $accountNumber = verifyUsername($user.'FirstName'[0] + $user.'LastName')
     $username = ($user.'FirstName'[0] + $user.'LastName' + $accountNumber)
-
+    $password = $user.'Password'
     New-ADUser `
         -Name ($user.'FirstName' + " " + $user.'LastName' + " " + $accountNumber) `
         -GivenName $user.'FirstName' `
         -Surname $user.'LastName' `
+        -DisplayName $user.'FirstName' + " " + $user.'LastName'
         -UserPrincipalName $username `
         -SamAccountName $username `
-        -AccountPassword (ConvertTo-SecureString "Admin2021" -AsPlainText -Force) `
+        -AccountPassword (ConvertTo-SecureString $password -AsPlainText -Force) `
         -Description $user.Description `
         -EmailAddress $user.'EmailAddress' `
         -Title $user.'JobTitle' `

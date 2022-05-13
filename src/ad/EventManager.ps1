@@ -1,4 +1,5 @@
 function Get-WinLogonHistory { 
+    $html = [System.Collections.ArrayList]@()
     $logons = Get-EventLog Security -AsBaseObject -InstanceId 4624,4647 | 
               Where-Object { ($_.InstanceId -eq 4647) -or (($_.InstanceId -eq 4624) -and ($_.Message -match "Logon Type:\s+2")) -or (($_.InstanceId -eq 4624) -and ($_.Message -match "Logon Type:\s+10")) } 
     #$poweroffs = Get-EventLog System -AsBaseObject -InstanceId 41
@@ -11,7 +12,7 @@ function Get-WinLogonHistory {
     $a = $a + "TD{column-width: 200px;border-width: 1px;padding: 3px;border-style: solid;border-color: black;background-color:PaleGoldenrod;text-align: center}"
     $a = $a + "</style>"
     if ($events) { 
-        $table = foreach($event in $events) { 
+        foreach($event in $events) { 
             # Parse logon data from the Event. 
             if ($event.InstanceId -eq 4624) { 
                 # A user logged on. 
@@ -70,14 +71,14 @@ function Get-WinLogonHistory {
                 Add-Member -MemberType NoteProperty -Name 'ComputerName' -Value $env:computername -InputObject $output 
                 Add-Member -MemberType NoteProperty -Name 'Action' -Value $action -InputObject $output 
                 Add-Member -MemberType NoteProperty -Name 'LogonType' -Value $logonType -InputObject $output 
-                Add-Member -MemberType NoteProperty -Name 'TimeStamp' -Value $timeStamp -InputObject $output 
-                $output | Format-Table -HideTableHeaders            
+                Add-Member -MemberType NoteProperty -Name 'TimeStamp' -Value $timeStamp -InputObject $output           
             } 
-            
+           
             #$outputs=@()
             #outputs = $output
-            Write-Output $output
-            $output.username -eq "aba" | ConvertTo-Html -Title "log management" -Head $a| Out-File Management.html -Append
+            $html.Add($output)
+            Write-Output $html
+            $html | ConvertTo-Html -As Table -Title "log management" -Head $a| Out-File Management.html 
             #foreach ($out in $output){
             #    $result = Write-Output $output
             #} 
@@ -96,7 +97,12 @@ function Get-WinLogonHistory {
 
 Get-WinLogonHistory 
 
-#function getADuserLog(){
+#function getADuserLog($username){
  #   Get-WinLogonHistory 
-  #  if()
+  #  if($output.UserName -eq $username){
+    #username of host machine here 
+  #}
+  #else {
+    #write-Output ""L'utilisateur que vous recherchez n'existe pas
+  #}
 #}
