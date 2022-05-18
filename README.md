@@ -1,14 +1,22 @@
 #Projet de déploiement de vms et de mise en place d'un AD, de la gestion des sessions utilisateurs et du moniroting
+#This Project Require AD,DNS 
 ETAPE 1:Clonez le projet et placez le dans un dossier de votre choix
+
 {
     Partie de Freskim Creation de la vm
 }
-#This Project Require AD,DNS 
+
  
 {
 
     Partie d'Alexandre 
 }
+
+{
+
+    Partie de Hawa
+}
+
 ETAPE X:Les scripts de Monitoring se trouve sur le dossier "src", Celui ci contient les deux sous dossier "
 /ABADManagement et /LogManagement"
 Le dossier ABADManagement contient les scripts suivants:
@@ -29,7 +37,11 @@ Se reporter à la documentation officielle de windows pour la partie centralisat
                                                                     ###########################################################################
 - Execution du script EventManager.ps1: L'exécution de ce script permet d'auditer les logs de connexions et les deconnexions des utilisateurs et des machines reliés à l'AD
   Il fournit en sortie un fichier HTML nommé "Management.html" contenant du CSS, il vient se placer par défaut sur le dossier courant.
+{
 
+    Partie de Mouhamed
+    
+}
 ########################################################################################################################################################################################    
 
 
