@@ -10,12 +10,12 @@ ETAPE 1:Clonez le projet et placez le dans un dossier de votre choix
  
 {
 
-    Partie d'Alexandre 
+    Partie d'Alexandre AD Deployment
 }
 
 {
 
-    Partie de Hawa
+    Partie de Hawa Users Creation
 }
 
 ETAPE X:Les scripts de Monitoring se trouve sur le dossier "src", Celui ci contient les deux sous dossier "
@@ -38,10 +38,12 @@ Se reporter à la documentation officielle de windows pour la partie centralisat
                                                                     ###########################################################################
 - Execution du script EventManager.ps1: L'exécution de ce script permet d'auditer les logs de connexions et les deconnexions des utilisateurs et des machines reliés à l'AD
   Il fournit en sortie un fichier HTML nommé "Management.html" contenant du CSS, il vient se placer par défaut sur le dossier courant.
+  
 {
 
     Partie de Mouhamed
 }
+
 ########################################################################################################################################################################################    
 
 
