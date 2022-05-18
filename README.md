@@ -1,9 +1,11 @@
 #Projet de déploiement de vms et de mise en place d'un AD, de la gestion des sessions utilisateurs et du moniroting
+#This Project Require AD,DNS 
+
 ETAPE 1:Clonez le projet et placez le dans un dossier de votre choix
 {
     Partie de Freskim Creation de la vm
 }
-#This Project Require AD,DNS 
+
  
 {
 
