@@ -19,15 +19,14 @@ function Get-WinLogonHistory {
                 $action = 'logon' 
                 $event.Message -match "Logon Type:\s+(\d+)" 
 
-
-                
                 $logonTypeNum = $matches[1] 
                 # Determine logon type. 
                 if ($logonTypeNum -eq 2) { 
                     $logonType = 'console' 
                 } elseif ($logonTypeNum -eq 10) { 
                     $logonType = 'remote' 
-                } else { 
+                } elseif ($logonTypeNum -eq 3) {
+
                     $logonType = 'other' 
                 } 
                  
@@ -42,8 +41,7 @@ function Get-WinLogonHistory {
             } elseif (($event.InstanceId -eq 4647) -or ($event.InstanceID -eq 4634)) { 
                 # A user logged off. 
                 $action = 'logoff' 
-                $logonType = "Remote|Console" 
-                 $user ="Unknown"
+                $logonType = ""
                 # Determine user. 
                 if ($event.message -match "Subject:\s*Security ID:\s*.*\s*Account Name:\s*(\w+)") { 
                     $user = $matches[1] 
