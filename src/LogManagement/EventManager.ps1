@@ -39,7 +39,7 @@ function Get-WinLogonHistory {
                     Write-Warning "Unable to parse Security log Event. Malformed entry? Index: $index" 
                 } 
                  
-            } elseif ($event.InstanceId -eq 4647 -or $event.InstanceID -eq 4634) { 
+            } elseif (($event.InstanceId -eq 4647) -or ($event.InstanceID -eq 4634)) { 
                 # A user logged off. 
                 $action = 'logoff' 
                 $logonType = "Remote|Console" 
