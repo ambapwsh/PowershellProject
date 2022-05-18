@@ -3,6 +3,7 @@
 ETAPE 1:Clonez le projet et placez le dans un dossier de votre choix
 
 {
+
     Partie de Freskim Creation de la vm
 }
 
@@ -40,7 +41,6 @@ Se reporter à la documentation officielle de windows pour la partie centralisat
 {
 
     Partie de Mouhamed
-    
 }
 ########################################################################################################################################################################################    
 
