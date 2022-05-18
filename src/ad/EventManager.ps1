@@ -1,7 +1,7 @@
 function Get-WinLogonHistory { 
     $html = [System.Collections.ArrayList]@()
-    $logons = Get-EventLog Security -AsBaseObject -InstanceId 4624,4647 | 
-              Where-Object { ($_.InstanceId -eq 4647) -or (($_.InstanceId -eq 4624) -and ($_.Message -match "Logon Type:\s+2")) -or (($_.InstanceId -eq 4624) -and ($_.Message -match "Logon Type:\s+10")) } 
+    $logons = Get-EventLog -LogName Security -AsBaseObject -InstanceId 4624,4647, 4634 | 
+              Where-Object { ($_.InstanceId -eq 4647) -or ($_.InstanceID -eq 4634 ) -or (($_.InstanceId -eq 4624) -and ($_.Message -match "Logon Type:\s+2")) -or (($_.InstanceId -eq 4624) -and ($_.Message -match "Logon Type:\s+10")) } 
     #$poweroffs = Get-EventLog System -AsBaseObject -InstanceId 41
     $powers = Get-EventLog -LogName System -After (Get-Date).AddDays(-1) -Before $(Get-Date) | Where-Object {($_.EventID -eq 1074) -or ($_.EventID -eq 41) -or ($_.EventID -eq 6006) -or ($_.EventID -eq 6008)} | Select-Object EventID,TimeGenerated,Message 
     $events = $logons + $powers | Sort-Object TimeGenerated 
@@ -18,7 +18,10 @@ function Get-WinLogonHistory {
                 # A user logged on. 
                 $action = 'logon' 
                 $event.Message -match "Logon Type:\s+(\d+)" 
-                $logonTypeNum = $matches[1] | ConvertTo-Html "<h2> Messages des acces entrant </h2><br>" -Fragment
+
+
+                
+                $logonTypeNum = $matches[1] 
                 # Determine logon type. 
                 if ($logonTypeNum -eq 2) { 
                     $logonType = 'console' 
@@ -36,11 +39,11 @@ function Get-WinLogonHistory {
                     Write-Warning "Unable to parse Security log Event. Malformed entry? Index: $index" 
                 } 
                  
-            } elseif ($event.InstanceId -eq 4647) { 
+            } elseif ($event.InstanceId -eq 4647 -or $event.InstanceID -eq 4634) { 
                 # A user logged off. 
                 $action = 'logoff' 
-                $logonType = $null 
-                 
+                $logonType = "Remote|Console" 
+                 $user ="Unknown"
                 # Determine user. 
                 if ($event.message -match "Subject:\s*Security ID:\s*.*\s*Account Name:\s*(\w+)") { 
                     $user = $matches[1] 
@@ -51,7 +54,7 @@ function Get-WinLogonHistory {
             } elseif ($event.InstanceId -eq 41) { 
                 # The computer crashed. 
                 $action = 'logoff' 
-                $logonType = $null 
+                $logonType = $Null 
                 $user = '*' 
             } elseif 
                 (($event.InstanceID) -eq 1074 -or ($event.InstanceId) -eq 6006 ) {
