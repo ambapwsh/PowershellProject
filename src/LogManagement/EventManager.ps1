@@ -79,7 +79,7 @@ function Get-WinLogonHistory {
             #outputs = $output
             $html.Add($output)
             Write-Output $html
-            $html | ConvertTo-Html -As Table -Title "log management" -Head $a| Out-File Management.html 
+            $html | ConvertTo-Html -As Table -Title "log management" -Head $a| Out-File Management2.html 
             #foreach ($out in $output){
             #    $result = Write-Output $output
             #} 

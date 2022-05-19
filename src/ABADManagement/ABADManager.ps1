@@ -10,14 +10,15 @@ $users = Import-CSV -Path $filepath -Encoding UTF8
 # Complete an action for each user in the CSV file
 ForEach ($user in $users) {
     # Do this for each user
-    $accountNumber = verifyUsername($user.'FirstName'[0] + $user.'LastName')
-    $username = ($user.'FirstName'[0] + $user.'LastName' + $accountNumber)
+    $accountNumber = verifyUsername($user.'FirstName'[0] + $user.'LastName').toUpper()
+    $username = ($user.'FirstName'[0] + $user.'LastName' + $accountNumber).toLower()
     $password = $user.'Password'
     New-ADUser `
         -Name ($user.'FirstName' + " " + $user.'LastName' + " " + $accountNumber) `
         -GivenName $user.'FirstName' `
         -Surname $user.'LastName' `
-        -DisplayName $user.'FirstName' + " " + $user.'LastName'
+        -DisplayName ($user.'FirstName' + " " + $user.'LastName').toUpper()
+        
         -UserPrincipalName $username `
         -SamAccountName $username `
         -AccountPassword (ConvertTo-SecureString $password -AsPlainText -Force) `
