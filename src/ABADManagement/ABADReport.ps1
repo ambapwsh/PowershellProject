@@ -13,7 +13,7 @@ Param(
     [string]$ReportTitle = "Active Directory Change Report",
     [Parameter(HelpMessage = "Specify the path to an image file to use as a logo in the report.")]
     [ValidateScript({Test-Path $_})]
-    [string]$Logo,
+    [string]$Logo=".\logo.png",
     [Parameter(HelpMessage = "Add a second grouping based on the object's container or OU.")]
     [switch]$ByContainer,
     [Parameter(HelpMessage = "Specify the path for the output file.")]

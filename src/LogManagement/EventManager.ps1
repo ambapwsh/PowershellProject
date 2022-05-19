@@ -6,7 +6,7 @@ function Get-WinLogonHistory {
     $powers = Get-EventLog -LogName System -After (Get-Date).AddDays(-1) -Before $(Get-Date) | Where-Object {($_.EventID -eq 1074) -or ($_.EventID -eq 41) -or ($_.EventID -eq 6006) -or ($_.EventID -eq 6008)} | Select-Object EventID,TimeGenerated,Message 
     $events = $logons + $powers | Sort-Object TimeGenerated 
     $a = "<style>"
-    $a = $a + "BODY{background-color:LightGray;; text-align: center; position:absolute; left:30%; top:20%;}"
+    $a = $a + "BODY{background-color:LightGray; text-align: center; position:absolute; left:30%; top:20%;}"
     $a = $a + "TABLE{border-width: 1px;border-style: solid;border-color:  black;border-collapse: collapse;}"
     $a = $a + "TH{column-width: 200px;border-width: 1px;padding: 8px;border-style: solid;border-color: black;background-color:thistle;  color: blue}"
     $a = $a + "TD{column-width: 200px;border-width: 1px;padding: 3px;border-style: solid;border-color: black;background-color:PaleGoldenrod;text-align: center}"
