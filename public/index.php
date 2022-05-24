@@ -8,12 +8,10 @@ require "header.php";
         require "content.php";
     }
     else if($uri === '/log'){
-        require '../src/log/management.php';
-       echo "work !";
+        require '../src/log/logs.php';
     }
     else if($uri === '/rapport'){
         require '../src/rapport/rapport.php';
-        var_dump($_SERVER['REQUEST_URI']);
     }
     else{
         require '../src/errors/404.php';

@@ -12,10 +12,10 @@
         <div class="nav-wrapper">
           <a href="/" class="brand-logo center">AD PROJECT</a>
           <ul id="nav-mobile" class="left hide-on-med-and-down">
-            <li><a href="#">Voir les logs</a></li>
-            <li><a href="#">Voir le Rapport de l'AD </a></li>
+            <li><a href="/log">Voir les logs</a></li>
+            <li><a href="/rapport">Voir le Rapport de l'AD </a></li>
           </ul>
         </div>
       </nav>
-    <div id="container" style="width:100%; height:500px;"><img src="./assets/img/before.jpg" style="width: 100%; height:500px; "></div>
+    <div id="container" style="width:100%; height:150px;"><img src="./assets/img/before.jpg" style="width: 100%; height:150px; "></div>
     
