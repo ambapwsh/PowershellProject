@@ -213,7 +213,7 @@
     margin-bottom: 5px;
   }
  
-  #myTable { width: auto;  border: 1px solid #ddd; font-size: 18px; margin-left: ; }
+  #myTable { width: auto;  border: 1px solid #ddd; font-size: 18px; margin-left: 60px; margin-bottom:10px }
   #myTable th, #myTable td { text-align: center; padding: 12px; }
  #myTable tr {  border-bottom: 1px solid #ddd; }
  #myTable tr.header, #myTable tr:hover { background-color: #c4c4c4;
