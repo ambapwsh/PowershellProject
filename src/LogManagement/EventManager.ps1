@@ -97,13 +97,3 @@ function Get-WinLogonHistory {
 } 
 
 Get-WinLogonHistory 
-
-#function getADuserLog($username){
- #   Get-WinLogonHistory 
-  #  if($output.UserName -eq $username){
-    #username of host machine here 
-  #}
-  #else {
-    #write-Output ""L'utilisateur que vous recherchez n'existe pas
-  #}
-#}
