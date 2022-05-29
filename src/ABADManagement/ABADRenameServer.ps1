@@ -1,6 +1,6 @@
 function RenameServerName{
     #begin by renaming Server Name and rebooting 
-    Rename-Computer -NewName DOUAMDC01
+    Rename-Computer -NewName DC01
     Restart-Computer -Force
 }
 
