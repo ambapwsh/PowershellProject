@@ -2,8 +2,8 @@ function InstallADForest{
     #gobal var for configuration 
     $DatabasePath = "C:\windows\NTDS"
     $DomainMode = "WinThreshold"
-    $DomainName = "esgihamfa.fr"
-    $DomainNameNetbios = "ESGIHAMFA"
+    $DomainName = "gr4.local"
+    $DomainNameNetbios = "GR4"
     $ForestMode = "WinThreshold"
     $SysVolPath = "C:\windows\SYSVOL"
     $Password = "Admin2021"
