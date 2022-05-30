@@ -48,13 +48,13 @@ function verifyUsername($username) {
 }
 
 # Check to see if username already exists
-function userNameTaken($username) {
-    $test1 = Get-ADUser -Filter { userPrincipalName -eq $username } 
-    $test2 = Get-ADUser -Filter { samAccountName -eq $username }
+#function userNameTaken($username) {
+ #   $test1 = Get-ADUser -Filter { userPrincipalName -eq $username } 
+  #  $test2 = Get-ADUser -Filter { samAccountName -eq $username }
 
-    if($test1 -eq $Null -and $test2 -eq $Null) {
+   # if($test1 -eq $Null -and $test2 -eq $Null) {
         return $False
-    } else {
-        return $True
-    }
-}
+    #} else {
+     #   return $True
+    #}
+#}
