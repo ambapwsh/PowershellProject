@@ -4,7 +4,7 @@
 $location = "CanadaCentral"
 $Groupederessources = "GR4-Groupe-de-ressources"
 $domain="gr4.local"
-$PathScripAD = "C:\Users\Freskim\Desktop\Project Powershell\fait\ESGI-GR4-Script-creatio-foret.ps1"
+$PathScripAD = "C:\Users\Freskim\Desktop\Project Powershell\fait\ESGI-GR4-Script-creation-foret.ps1"
 
 
 #=============================== Creation du login avec le mdp local pour la machine virtuelle
@@ -54,7 +54,7 @@ $vm.Name|foreach{
          }
     }
 
-#=============================== Vérifier que on peut installer le service AD
+#=============================== Vérifier qu'on peut installer le service AD
 
 
 Do {
