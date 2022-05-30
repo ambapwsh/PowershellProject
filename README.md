@@ -1,26 +1,18 @@
 #Projet de déploiement de vms et de mise en place d'un AD, de la gestion des sessions utilisateurs et du moniroting
 #This Project Require AD,DNS 
-<<<<<<< HEAD
-
-=======
->>>>>>> 7a0208a0b095b3d8f890cbd3c3ff5e5baf6ab15e
 ETAPE 1:Clonez le projet et placez le dans un dossier de votre choix
 
-##################################################################################################################################################
+#######################################################################################
 Avant de démarrer le script il faut connecter l’azure avec PowerShell. 
 Au démarrage du script il faut mettre le nom de la machine a créé, un fois la machine crée sur l’Azure le script vous demande de cocher le case avec le quelle vous valider les logiciels à installer suite aux déploiement de la machine.
 
-
-{
-
-    Partie d'Alexandre AD Deployment
-}
-
-{
-
-    Partie de Hawa Users Creation
-}
-
+#######################################################################################
+Avant de démarrer le script, vous devez vous connecter à votre compte Azur. 
+Une fois connecté, il faut démarrer le script puis saisir le nom de la machine virtuelle souhaité. 
+Le script va ensuite créer la machine virtuelle puis ajouter le Rôle AD à la machine virtuelle
+#######################################################################################
+Pour ce script il faut un fichier .txt avec  Prenom:Nom:Classe
+#######################################################################################
 ETAPE X:Les scripts de Monitoring se trouve sur le dossier "src", Celui ci contient les deux sous dossier "
 /ABADManagement et /LogManagement"
 Le dossier ABADManagement contient les scripts suivants:
