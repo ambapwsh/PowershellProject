@@ -6,12 +6,12 @@ $Groupederessources = "GR4-Groupe-de-ressources"
 $domain="gr4.local"
 
 
-#=============================== Les different path des scriptes 
+#=============================== Les differents path des scripts 
 
 $PathDNS = "C:\Users\Freskim\Desktop\Project Powershell\fait\ESGI-GR4-DNS.ps1"
 $PathChrome = "C:\Users\Freskim\Desktop\Project Powershell\fait\ESGI-GR4-Google-Chrome.ps1"
 $PathDomain = "C:\Users\Freskim\Desktop\Project Powershell\fait\ESGI-GR4-Domain.ps1"
-$PathNotepad = "C:\Users\Freskim\Desktop\Project Powershell\fait\ESGI-GR4-Notepad++.ps1"
+$Path7zip = "C:\Users\Freskim\Desktop\Project Powershell\fait\ESGI-GR4-7zip.ps1"
 $PathFirefox = "C:\Users\Freskim\Desktop\Project Powershell\fait\ESGI-GR4-Firefox.ps1"
 
 
@@ -19,7 +19,7 @@ $PathFirefox = "C:\Users\Freskim\Desktop\Project Powershell\fait\ESGI-GR4-Firefo
 
 
 
-#************************************* Windows Form *************************************
+#=============================== Windows Form ===============================
 
 function ESGI-GR4-checkbox{
     [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
@@ -29,7 +29,7 @@ function ESGI-GR4-checkbox{
     $Form = New-Object System.Windows.Forms.Form
     $Form.width = 500
     $Form.height = 200
-    $Form.Text = ”Les application a installer ?”
+    $Form.Text = ”Les applications a installer ?”
  
     # Set the font of the text to be used within the form
     $Font = New-Object System.Drawing.Font("Freskim",12)
@@ -40,18 +40,18 @@ function ESGI-GR4-checkbox{
     $AjouterDomain = new-object System.Windows.Forms.checkbox
     $AjouterDomain.Location = new-object System.Drawing.Size(200,30)
     $AjouterDomain.Size = new-object System.Drawing.Size(200,30)
-    $AjouterDomain.Text = "AjouterDomain"
+    $AjouterDomain.Text = "Ajouter au Domaine"
     $AjouterDomain.Checked = $false
     $Form.Controls.Add($AjouterDomain)  
  
 
     # create checkbox Notepad++
-    $Notepad = new-object System.Windows.Forms.checkbox
-    $Notepad.Location = new-object System.Drawing.Size(200,60)
-    $Notepad.Size = new-object System.Drawing.Size(200,30)
-    $Notepad.Text = "Notepad++"
-    $Notepad.Checked = $false
-    $Form.Controls.Add($Notepad)  
+    $7zip = new-object System.Windows.Forms.checkbox
+    $7zip.Location = new-object System.Drawing.Size(200,60)
+    $7zip.Size = new-object System.Drawing.Size(200,30)
+    $7zip.Text = "7zip"
+    $7zip.Checked = $false
+    $Form.Controls.Add($7zip)  
 
 
 
@@ -110,6 +110,7 @@ function ESGI-GR4-checkbox{
   
    if ($GoogleChrome.checked -eq "True"){
     $GoogleChrome="OUI"
+
 #=============================== Permet d'installer google chrome ===============================
 
         if ( $GoogleChrome -eq "OUI") {
@@ -134,11 +135,11 @@ function ESGI-GR4-checkbox{
     }
     
 
-       if ($Notepad.checked -eq "True"){
-    $Notepad="OUI"
-    #=============================== Permet d'installer Notepad++ ===============================
+       if ($7zip.checked -eq "True"){
+    $7zip="OUI"
+    #=============================== Permet d'installer 7Zip ===============================
 
-        if ( $Notepad -eq "OUI") {
+        if ( $7zip -eq "OUI") {
         Do {
             $StatusVM = (Get-AzVM -ResourceGroupName $Groupederessources -Name $nomVm -Status).VMAgent.Statuses.DisplayStatus
     
@@ -151,7 +152,7 @@ function ESGI-GR4-checkbox{
              -ResourceGroupName $Groupederessources `
              -VMName "$nomVm" `
              -CommandId "RunPowerShellScript" `
-             -ScriptPath $PathNotepad
+             -ScriptPath $Path7zip
              }
         }
 
@@ -238,7 +239,7 @@ function ESGI-GR4-checkbox{
         if ($AjouterDomain -eq "OUI"){
         if($?){
             Restart-AzVM -Name $nomVm -ResourceGroupName $Groupederessources
-            echo " la machine $nomVm vien d'être redemarré"
+            echo " la machine $nomVm vient d'être redemarré"
         }
         else{
             echo "l'integration de la machine dans l'AD n'a pas fonctionnée"
@@ -260,15 +261,7 @@ function ESGI-GR4-checkbox{
 }
 
 
-
-
-
-
-
-
-
-
-#La fonction qui permet de créée la machine virtuelle 
+#===============================La fonction qui permet de créée la machine virtuelle 
 
 
 function ESGI-GR4-CreateVM {
@@ -287,10 +280,6 @@ New-AzVm `
 }
 
 
-
-
-
-
 #=============================== Creation du login plus mdp local pour les machines ===============================
 
 
@@ -305,7 +294,7 @@ $UserPassword = New-Object System.Management.Automation.PSCredential($VMLocalUse
 $nomVm = Read-Host "Donner le nom de la machine virtuelle"
 
 
-#=============================== Tester si la machine existe ===============================
+#=============================== Verifier si la machine existe ===============================
 
 
 $vm = Get-AzVM -ResourceGroupName $Groupederessources
@@ -322,6 +311,6 @@ $vm.Name|foreach{
 
 
 
-#===================== appler la function #=====================
+#===================== appeler la function =====================
 
 ESGI-GR4-checkbox
