@@ -1,4 +1,4 @@
-$foldeBrowser = New-Object System.Windows.Forms.OpenFileDialog
+﻿$foldeBrowser = New-Object System.Windows.Forms.OpenFileDialog
 $foldeBrowser.ShowDialog()
 $file = $foldeBrowser.FileName
 Foreach ($ligne in Get-Content $file)
@@ -33,6 +33,7 @@ New-ADOrganizationalUnit "$ecole"
 
 
 #=======================Création des UNITE====================================
+
 $uni=Get-ADOrganizationalUnit -Filter { name -eq $gr}
     if ($uni) {Write-Host("L'unite $gr il existe deja")}
 else{
@@ -55,11 +56,13 @@ $grp= get-adgroup -Filter { samaccountname -eq $gr}
     ## Creation du Groupe
     New-ADGroup -Name "$gr" -SamAccountName $gr -GroupCategory Security -GroupScope Global -Path $groupPATH
       #Message
-    Write-Host("Le goupe : $gr Il s'est créé avec succès.")
+    Write-Host("Le groupe : $gr Il s'est créé avec succès.")
     }
 
+$infoutilisateu = ""
 
 #==============================Création des utilisateurs============================
+
 
  $usr=Get-ADUser -Filter { SamAccountName -eq $acc}
     if ($usr) {Write-Host("l'utilisateur $acc il existe deja")}
@@ -74,6 +77,8 @@ $grp= get-adgroup -Filter { samaccountname -eq $gr}
 }
 
 
+#$text = $infoutilisateu | Out-File $text -FilePath C:\data\Inofuser.txt
+
 
 #==============================Création des MDP par defaut============================
 
@@ -81,7 +86,7 @@ $usr=Get-ADUser -Filter { SamAccountName -eq $acc}
     if ($usr) {
              #Création des MDP par defaut
                      Set-ADAccountPassword -Identity $acc -NewPassword $mdp –Reset 
-                     Set-ADUser $acc -ChangePasswordAtLogon $true
+                     Set-ADUser $acc -ChangePasswordAtLogon $false
 	                 Write-Host("L'utilisateur $acc à pour mdp : $mdp2")}
 else {Write-Host("l'utilisateur $acc il n'existe pas")
 }
@@ -94,9 +99,12 @@ $usr=Get-ADUser -Filter { SamAccountName -eq $acc}
     if ($usr) {
        #Activer les utilisateurs
    Set-ADUser -Identity $acc -Enabled $true
+   Set-ItemProperty ‘HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp\‘ -Name “UserAuthentication” -Value 1
    Write-Host("L'utilisateur $acc il est Activer")
    }
    else {Write-Host("l'utilisateur $acc il n'existe pas")}
+
+
 
 
 
